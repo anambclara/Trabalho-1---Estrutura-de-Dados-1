@@ -1,9 +1,10 @@
+#ifndef USUARIOS_H
 #define USUARIOS_H
 
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
+typedef struct Usuario
 {
     int id; // RA ou SIAPE
     char nome[100];
@@ -18,7 +19,7 @@ typedef struct
     int tamanho;
 } ListaUsuarios;
 
-void inicializarLista(ListaUsuarios *lista);
+void inicializarListaUsuarios(ListaUsuarios *lista);
 
 void cadastrarUsuario(ListaUsuarios *lista);
 
@@ -27,3 +28,5 @@ Usuario *buscarUsuario(ListaUsuarios *lista, int id);
 void listarUsuarios(ListaUsuarios *lista);
 
 void podeEmprestar(Usuario *usuario);
+
+#endif

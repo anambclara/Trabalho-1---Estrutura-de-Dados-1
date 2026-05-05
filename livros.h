@@ -1,3 +1,4 @@
+#ifndef LIVROS_H
 #define LIVROS_H
 
 #include <stdio.h>
@@ -18,12 +19,14 @@ typedef struct
     int tamanho;
 } ListaLivros;
 
-void inicializarLista(ListaLivros *lista); 
+void inicializarListaLivros(ListaLivros *lista);
 
 void cadastrarLivro(ListaLivros *lista);
 
-Livro* buscarLivro(ListaLivros *lista, int codigo);
+Livro *buscarLivro(ListaLivros *lista, int codigo);
 
 void listarLivros(ListaLivros *lista);
 
 void alterarDisponibilidade(Livro *livro, int status);
+
+#endif
