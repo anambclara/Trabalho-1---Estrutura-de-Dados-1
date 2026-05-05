@@ -1,6 +1,6 @@
 #include "usuarios.h"
 
-void inicializarLista(ListaUsuarios *lista)
+ void inicializarListaUsuarios(ListaUsuarios *lista)
 {
     lista->inicio = NULL; // Lista vazia
     lista->tamanho = 0;
@@ -71,8 +71,8 @@ void listarUsuarios(ListaUsuarios *lista) {
 
 
 void podeEmprestar(Usuario *usuario) {
-    if(usuario->qtdEmprestimos >= 3) {
-        printf("Usuário não pode emprestar mais livros. Limite de 3 empréstimos atingido.\n");
+    if(usuario->qtdEmprestimos >= 2) {
+        printf("Usuário não pode emprestar mais livros. Limite de 2 empréstimos atingido.\n");
     } else {
         printf("Usuário pode emprestar livros. Empréstimos atuais: %d\n", usuario->qtdEmprestimos);
     }

@@ -1,6 +1,6 @@
 #include "livros.h"
 
-void inicializarLista(ListaLivros *lista)
+void inicializarListaLivros(ListaLivros *lista)
 {
     lista->inicio = NULL; // Lista vazia
     lista->tamanho = 0;
