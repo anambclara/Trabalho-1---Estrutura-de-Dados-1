@@ -47,7 +47,7 @@ void realizarEmprestimo (
     {
         printf("Livro indisponível. Usuário adicionado à fila de espera.\n");
 
-        inserirNaFilaEspera(filaEspera, codigoLivro, idUsuario);
+        inserirNaFilaEspera(filaEspera, livros, usuarios, codigoLivro, idUsuario);
 
         return;
     }

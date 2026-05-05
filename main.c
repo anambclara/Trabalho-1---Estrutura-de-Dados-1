@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "livros.h"
 #include "usuarios.h"
 #include "emprestimos.h"
 #include "lista.h"
+
 
 void exibirMenu()
 {
