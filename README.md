@@ -45,3 +45,5 @@ A lista mantém um ponteiro chamado `ultimo`, que aponta sempre para o nó inser
 ## Autores
 
 - Ana Clara Martins Batista
+- Flavia Rosa Santos
+- Joyce Adriana Borecki
