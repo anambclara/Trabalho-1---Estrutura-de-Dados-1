@@ -3,9 +3,6 @@
 #ifndef LISTA_H
 #define LISTA_H
 
-#include "livros.h"
-#include "usuarios.h"
-
 //No da fila de espera
 typedef struct NoFila {
     char ra[20];        
@@ -20,6 +17,9 @@ typedef struct {
 } FilaCircular;
 
 typedef FilaCircular ListaEspera;
+
+typedef struct ListaLivros ListaLivros;
+typedef struct ListaUsuarios ListaUsuarios;
 
 //Inicializa fila vazia
 void filaInicializar(FilaCircular *fila);
@@ -42,7 +42,8 @@ void filaDestruir(FilaCircular *fila);
 
 //Funções auxiliares com nomenclatura alternativa
 void inicializarFilaEspera(ListaEspera *fila);
-int inserirNaFilaEspera(ListaEspera *fila, ListaLivros *livros, ListaUsuarios *usuarios, int codigoLivro, int idUsuario);
+int inserirNaFilaEspera(ListaLivros *livros, ListaUsuarios *usuarios, int codigoLivro, int idUsuario);
 void exibirFilaEspera(const ListaEspera *fila);
+void exibirFilaEsperaLivro(ListaLivros *livros);
 
 #endif

@@ -25,8 +25,7 @@ void inicializarEmprestimos(ListaEmprestimos *lista);
 void realizarEmprestimo(
     ListaEmprestimos *emprestimos,
     ListaLivros *livros,
-    ListaUsuarios *usuarios,
-    ListaEspera *filaEspera
+    ListaUsuarios *usuarios
 );
 
 void registrarDevolucao(

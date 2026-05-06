@@ -33,6 +33,7 @@ void cadastrarLivro(ListaLivros *lista)
     scanf(" %[^\n]", novoLivro->autor);
 
     novoLivro->disponivel = 1;
+    filaInicializar(&novoLivro->filaEspera);
 
     novoLivro->prox = lista->inicio;
     lista->inicio = novoLivro;

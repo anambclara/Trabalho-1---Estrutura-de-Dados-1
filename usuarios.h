@@ -13,7 +13,7 @@ typedef struct Usuario
     struct Usuario *prox;
 } Usuario;
 
-typedef struct
+typedef struct ListaUsuarios
 {
     Usuario *inicio;
     int tamanho;

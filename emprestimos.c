@@ -5,11 +5,11 @@ void inicializarEmprestimos(ListaEmprestimos *lista) {
     lista->tamanho = 0;
 }
 
+// faz o empréstimo se o livro estiver livre. Se não estiver, coloca na fila do próprio livro
 void realizarEmprestimo (
     ListaEmprestimos *emprestimos,
     ListaLivros *livros,
-    ListaUsuarios *usuarios,
-    ListaEspera *filaEspera
+    ListaUsuarios *usuarios
 )
 {
     int codigoLivro;
@@ -47,7 +47,7 @@ void realizarEmprestimo (
     {
         printf("Livro indisponível. Usuário adicionado à fila de espera.\n");
 
-        inserirNaFilaEspera(filaEspera, livros, usuarios, codigoLivro, idUsuario);
+        inserirNaFilaEspera(livros, usuarios, codigoLivro, idUsuario);
 
         return;
     }
@@ -73,6 +73,7 @@ void realizarEmprestimo (
     printf("Empréstimo realizado com sucesso.\n");
 }
 
+// registra a devolucao e se tiver fila empresta o livro para o proximo usuario
 void registrarDevolucao(
     ListaEmprestimos *emprestimos,
     ListaLivros *livros,
@@ -90,6 +91,8 @@ void registrarDevolucao(
 
     Emprestimo *atual = emprestimos->inicio;
     Emprestimo *anterior = NULL;
+    Livro *livro = buscarLivro(livros, codigoLivro);
+    Usuario *usuario = buscarUsuario(usuarios, idUsuario);
 
     while (atual != NULL)
     {
@@ -103,9 +106,6 @@ void registrarDevolucao(
             {
                 anterior->prox = atual->prox;
             }
-
-            Livro *livro = buscarLivro(livros, codigoLivro);
-            Usuario *usuario = buscarUsuario(usuarios, idUsuario);
 
             if (livro != NULL)
             {
@@ -121,7 +121,51 @@ void registrarDevolucao(
             emprestimos->tamanho--;
 
             printf("Devolução registrada com sucesso.\n");
-            printf("Confira se há usuários na fila de espera deste livro.\n");
+
+            if (livro != NULL)
+            {
+                char raFila[20];
+                char nomeFila[100];
+
+                // depois da devolucao, tenta emprestar para o primeiro da fila do livro
+                while (livro->filaEspera.tamanho > 0 && filaRemover(&livro->filaEspera, raFila, nomeFila))
+                {
+                    int idFila = atoi(raFila);
+                    Usuario *usuarioFila = buscarUsuario(usuarios, idFila);
+
+                    if (usuarioFila == NULL)
+                    {
+                        printf("Usuário da fila não encontrado: %s.\n", nomeFila);
+                    }
+                    else if (usuarioFila->qtdEmprestimos >= 2)
+                    {
+                        printf("%s estava na fila, mas atingiu o limite de 2 empréstimos.\n", usuarioFila->nome);
+                    }
+                    else
+                    {
+                        Emprestimo *novo = (Emprestimo *) malloc(sizeof(Emprestimo));
+
+                        if (novo == NULL)
+                        {
+                            printf("Erro: memória insuficiente.\n");
+                            exit(1);
+                        }
+
+                        novo->codigoLivro = codigoLivro;
+                        novo->idUsuario = usuarioFila->id;
+                        novo->prox = emprestimos->inicio;
+
+                        emprestimos->inicio = novo;
+                        emprestimos->tamanho++;
+
+                        alterarDisponibilidade(livro, 0);
+                        usuarioFila->qtdEmprestimos++;
+
+                        printf("Livro emprestado automaticamente para %s.\n", usuarioFila->nome);
+                        return;
+                    }
+                }
+            }
 
             return;
         }

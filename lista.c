@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lista.h"
+#include "livros.h"
+#include "usuarios.h"
 
 
 //filaInicializar - Prepara a fila para uso, sem alocar memoria.
@@ -55,8 +57,14 @@ int filaRemover(FilaCircular *fila, char *ra_out, char *nome_out) {
 
     NoFila *primeiro = fila->ultimo->prox;
 
-    if (ra_out)   strncpy(ra_out,   primeiro->ra,   19);
-    if (nome_out) strncpy(nome_out, primeiro->nome, 99);
+    if (ra_out) {
+        strncpy(ra_out, primeiro->ra, 19);
+        ra_out[19] = '\0';
+    }
+    if (nome_out) {
+        strncpy(nome_out, primeiro->nome, 99);
+        nome_out[99] = '\0';
+    }
 
     if (primeiro == fila->ultimo) {
         fila->ultimo = NULL;
@@ -125,16 +133,36 @@ void inicializarFilaEspera(ListaEspera *fila) {
     filaInicializar(fila);
 }
 
-int inserirNaFilaEspera(ListaEspera *fila, ListaLivros *livros, ListaUsuarios *usuarios, int codigoLivro, int idUsuario) {
+int inserirNaFilaEspera(ListaLivros *livros, ListaUsuarios *usuarios, int codigoLivro, int idUsuario) {
+    Livro *livro = buscarLivro(livros, codigoLivro);
     Usuario *usuario = buscarUsuario(usuarios, idUsuario);
-    if (!usuario) return 0;
+
+    if (!livro || !usuario) return 0;
     
     char ra_str[20];
     snprintf(ra_str, sizeof(ra_str), "%d", usuario->id);
     
-    return filaInserir(fila, ra_str, usuario->nome);
+    return filaInserir(&livro->filaEspera, ra_str, usuario->nome);
 }
 
 void exibirFilaEspera(const ListaEspera *fila) {
     filaExibir(fila);
+}
+
+// pede o codigo do livro e mostra somente a fila daquele livro
+void exibirFilaEsperaLivro(ListaLivros *livros) {
+    int codigoLivro;
+
+    printf("Digite o codigo do livro: ");
+    scanf("%d", &codigoLivro);
+
+    Livro *livro = buscarLivro(livros, codigoLivro);
+
+    if (livro == NULL) {
+        printf("Livro nao encontrado.\n");
+        return;
+    }
+
+    printf("\nFila de espera do livro: %s\n", livro->titulo);
+    filaExibir(&livro->filaEspera);
 }

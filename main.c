@@ -25,8 +25,7 @@ void executarOpcao(
     int opcao,
     ListaLivros *livros,
     ListaUsuarios *usuarios,
-    ListaEmprestimos *emprestimos,
-    ListaEspera *filaEspera
+    ListaEmprestimos *emprestimos
 )
 {
     switch (opcao)
@@ -48,7 +47,7 @@ void executarOpcao(
             break;
 
         case 5:
-            realizarEmprestimo(emprestimos, livros, usuarios, filaEspera);
+            realizarEmprestimo(emprestimos, livros, usuarios);
             break;
 
         case 6:
@@ -60,7 +59,7 @@ void executarOpcao(
             break;
 
         case 8:
-            exibirFilaEspera(filaEspera);
+            exibirFilaEsperaLivro(livros);
             break;
 
         case 0:
@@ -77,12 +76,10 @@ int main()
     ListaLivros livros;
     ListaUsuarios usuarios;
     ListaEmprestimos emprestimos;
-    ListaEspera filaEspera;
 
     inicializarListaLivros(&livros);
     inicializarListaUsuarios(&usuarios);
     inicializarEmprestimos(&emprestimos);
-    inicializarFilaEspera(&filaEspera);
 
     int opcao;
 
@@ -91,7 +88,7 @@ int main()
         exibirMenu();
         scanf("%d", &opcao);
 
-        executarOpcao(opcao, &livros, &usuarios, &emprestimos, &filaEspera);
+        executarOpcao(opcao, &livros, &usuarios, &emprestimos);
 
     } while (opcao != 0);
 

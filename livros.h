@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "lista.h"
 
 typedef struct Livro
 {
@@ -10,10 +11,11 @@ typedef struct Livro
     char autor[100];
     int codigo;
     int disponivel; // 1 para disponível, 0 pra indisponível
+    FilaCircular filaEspera; // cada livro tem sua propria fila
     struct Livro *prox;
 } Livro;
 
-typedef struct
+typedef struct ListaLivros
 {
     Livro *inicio;
     int tamanho;
